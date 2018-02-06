@@ -1,4 +1,4 @@
-<?php
+xw<?php
 require_once __DIR__ . '/../autoloader.php';
 use phpspider\core\phpspider;
 use phpspider\core\requests;
