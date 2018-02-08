@@ -1,9 +1,10 @@
 .*
 /vendor/
 composer.lock
-data/ 
+data/
 cache/
 client.php
 *.bak.php
+common/index.txt
 
 

@@ -370,7 +370,9 @@ class phpspider
         $configs['max_depth']  = isset($configs['max_depth'])  ? $configs['max_depth']  : 0;
         $configs['max_fields'] = isset($configs['max_fields']) ? $configs['max_fields'] : 0;
         $configs['export']     = isset($configs['export'])     ? $configs['export']     : array();
-
+        //2018 02 08 add db type
+        $configs['db_type']    = isset($configs['db_type'])    ? $configs['db_type']    : 'insert';
+        $configs['db_key']    = isset($configs['db_key'])    ? $configs['db_key']    : '';
         // csv、sql、db
         self::$export_type  = isset($configs['export']['type'])  ? $configs['export']['type']  : '';
         self::$export_file  = isset($configs['export']['file'])  ? $configs['export']['file']  : '';
@@ -1737,7 +1739,13 @@ class phpspider
                     }
                     elseif (self::$export_type == 'db') 
                     {
-                        db::insert(self::$export_table, $fields);
+                        //Todo insert and update
+                        if(self::$configs['db_type'] == 'insert') {
+                            db::insert(self::$export_table, $fields);
+                        }else if(self::$configs['db_type'] == 'update'){
+                            $where = self::$configs['db_key'].' = '.$fields[self::$configs['db_key']];
+                          exit(db::update(self::$export_table,$fields,$where));
+                        }
                     }
                 }
             }
@@ -1962,6 +1970,26 @@ class phpspider
                 {
                     log::error("Export data to a database need Mysql support, you have not set a config array for connect.");
                     exit;
+                }
+                if(self::$configs['db_type'] == 'update' && !self::$configs['db_key']){
+                    log::error("Update data to a database need Update Key, you have not set a db_key  for config.");
+                    exit;
+                }
+                if(self::$configs['db_type'] == 'update' && self::$configs['db_key']){
+                    $error = 0;
+                    foreach (self::$configs['fields'] as $key){
+                        if ($key['name'] != self::$configs['db_key']) {
+                            $error = 1;
+                        }else {
+                            $error = 0;
+                        }
+
+                    }
+                    if($error) {
+                        log::error("Fileds dont't have db_key,please set db_key");
+                        exit;
+                    }
+
                 }
 
                 $config = self::$db_config;

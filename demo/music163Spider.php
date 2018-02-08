@@ -20,7 +20,7 @@ $configs = array(
         'music.163.com'
     ),
     'scan_urls' => array(
-        "http://music.163.com/user/home?id=1",
+        "http://music.163.com/user/home?id=80709138",
 //        "http://music.163.com/#/user/home?id=%s",
     ),
     'list_url_regexes' => array(
@@ -33,9 +33,13 @@ $configs = array(
 //        'type' => 'db',
 //        'table' => 'userinfo',
 //    ),
+    'db_type' => 'update',
+    'db_key' =>'userinfoid',
     'export' => array(
-        'type' => 'csv',
-        'file' => __DIR__.'/../common/test.csv',
+        'type' => 'db',
+        'table' => 'test',
+//'type' => 'csv',
+//        'file' => __DIR__.'/../common/test.csv',
     ),
     'db_config' => array(
         'host'  => '127.0.0.1',
@@ -60,7 +64,8 @@ $configs = array(
         //gender性别
         array(
             'name' => "gender",
-            'selector' => "h2[@id='j-name-wrap']//i/@class",
+            'selector' => "//h2[@id='j-name-wrap']//i/@class",
+            'repeated' =>true,
 
         ),
         //addUp 累计听歌
@@ -103,12 +108,14 @@ $configs = array(
         array(
             'name' => "city",
             'selector' => "//div[contains(@class,'inf s-fc3')]//span",
+            'repeated' =>true,
 
         ),
         //province
         array(
             'name' => "province",
             'selector' => "//div[contains(@class,'inf s-fc3')]//span",
+            'repeated' =>true,
 
         ),
         //introduction 个人介绍
@@ -116,6 +123,12 @@ $configs = array(
             'name' => "introduction",
             'selector' => "//div[contains(@class,'inf s-fc3 f-br')]",
 
+        ),
+        //userinfoid
+        array(
+            'name'=>'userinfoid',
+            'selector'=>"//li[contains(@class,'fst')]//a//@href",
+            'repeated' =>true,
         ),
     ),
 );
@@ -128,16 +141,22 @@ $spider->on_start = function($phpspider)
 };
 $spider->on_extract_field = function ($fieldname,$data,$page)
 {
-    $result = '';
+
     switch ($fieldname){
+        case 'userinfoid':
+            $reg = '/\d+/';
+            preg_match($reg,is_array($data)?$data[0]:$data,$res);
+            $result = $res[0];
+            break;
         case 'city'://获取城市
-            $res = $data[0];
+            $res = is_array($data)?$data[0]:$data;
+
             $res = str_replace('所在地区：','',$res);
             $res = explode(' - ',$res);
             $result = $res[1]?$res[1]:'';
             break;
         case 'province':
-            $res = $data[0];
+            $res = is_array($data)?$data[0]:$data;
             $res = str_replace('所在地区：','',$res);
             $res = explode(' - ',$res);
             $result = $res[0]?$res[0]:'';
@@ -151,11 +170,14 @@ $spider->on_extract_field = function ($fieldname,$data,$page)
             $result = $res[0];
             break;
         case 'gender':
-            $res = $data[1];
+            $res = is_array($data)?$data[1]:$data;
             $result = (int)substr($res,-2,2);
             break;
         case 'age':
             $result = substr($data,0,-3);//timestamp
+            break;
+        default :
+            $result = $data;
             break;
     }
     return  $result;

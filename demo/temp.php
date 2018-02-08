@@ -36,11 +36,14 @@ requests::set_referer($referer);
 //$index = 64;
 $pageSize = 1000;
 
-$endTime = time()+3600;
+$endTime = time()+30;
 $num = 1;
 $child = [];
 $fileName = __DIR__.'/../common/index.txt';
 $log = __DIR__.'/../common/debug_log.log';
+db::set_connect('default',['host'=>'127.0.0.1','user'=>'root','pass'=>'','port'=>3306,'name'=>'music163']);
+$startNums = db::get_one('select count(*) as all from userinfo')['all'];
+db::clear_link();
 //$up = db::update('userinfo',['isCatch'=>0]);exit;
 echo 'start '.microtime(true).PHP_EOL;
 for ($i=0;$i<$num;$i++) {
@@ -132,7 +135,14 @@ while(count($child)){
         }
     }
 }
+
 echo 'end '.microtime(true).PHP_EOL;
+db::set_connect('default',['host'=>'127.0.0.1','user'=>'root','pass'=>'','port'=>3306,'name'=>'music163']);
+$endNums = db::get_one('select count(*) as all from userinfo')['all'];
+db::clear_link();
+echo '*****StartNums = '.$startNums.' *******'.PHP_EOL;
+echo '*****EndNums = '.$endNums.' *******'.PHP_EOL;
+echo '*****NewNums = '.$endNums-$startNums.' *******'.PHP_EOL;
 exit();
 
 
