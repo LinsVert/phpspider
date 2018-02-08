@@ -27,7 +27,7 @@ class Config{
     const MUSICCOOKIE = '_iuqxldmzr_=32; _ntes_nnid=a48c228187ebfa28dd79abdcc46d72b3,1517653891761; _ntes_nuid=a48c228187ebfa28dd79abdcc46d72b3; __utmc=94650624; __utmz=94650624.1517653892.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); JSESSIONID-WYYY=B2VOWErCyt9Y1gIkKEHncfs2PORiYn%2FRycz2Dikn4nt3cB%5CkKKoGMS6tpTT2J61eXhlzI%2BMcWCtNSnefuZvSgmJmxtG1YO4%5Ct8STfJr7W7MpWEbDZCjxoDVU2DuhBsTP0Tqa3x0aymzhIIhdnjYvQn4YQI22vI8SOzfeOp%5C1WPQsbaT5%3A1517659175161; __utma=94650624.1295343954.1517653892.1517653892.1517658054.2; __utmb=94650624.3.10.1517658054';
     const MUSICSONGSJSON = 'http://music.163.com/weapi/v2/discovery/recommend/songs?csrf_token=b4c54c3bdb9ee0814ed41024cbe9008a';
     const MUSICSSONGURI = 'http://music.163.com/#/song?id=%s';
-    const MUSICUSERURI = 'http://music.163.com/#/user/home?id=%s';
+    const MUSICUSERURI = 'http://music.163.com/user/home?id=%d';
     const MUSICCOOMENT = 'http://music.163.com/weapi/v1/resource/comments/%s?csrf_token=7160c6fa46f866c0ef3a4fc1dd4903b4';
     const USERLIKELISTTOP = 'http://music.163.com/weapi/v1/play/record?csrf_token=414353219ad7aac1fa13a76fcc82101a';
     const USERSONGLIST = 'http://music.163.com/weapi/user/playlist?csrf_token=8be29bd43ed53285c1c31b03f8ba17db';
