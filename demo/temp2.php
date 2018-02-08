@@ -10,6 +10,7 @@ require_once __DIR__ . '/../autoloader.php';
 use phpspider\core\requests;
 use phpspider\common\Config;
 use phpspider\core\selector;
+use phpspider\core\db;
 $id = 80709138;
 $url = Config::MUSICUSERURI;
 $url = sprintf($url,$id);
@@ -51,10 +52,10 @@ $xpath = "//h2[@id='j-name-wrap']//i/@class";//sex int 1 man 2 female
 $xpath = "//span[contains(@id,'age')]//@data-age";//age 702835200000 90后 820080000000 95hou 1003160807914 00hou 可能没有 946656000000
 //$res = substr($res,0,-3);//timestamp
 $xpath = "//dt[contains(@id,'ava')]//img";//header string
-
+$xpath = "//li[contains(@class,'fst')]//a//@href";
 $file = __DIR__.'/../common/userinfo.html';
 $html = file_get_contents($file);
 
 $res = selector::select($html,$xpath);
-$res = substr($res,0,-3);
+//$res = substr($res,0,-3);
 var_dump($res);
