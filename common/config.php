@@ -35,7 +35,7 @@ class Config{
     const USERFANS = 'http://music.163.com/weapi/user/getfollows?csrf_token=';//关注列表
     const USERLIKELISTTOPPAGAM = '';
     const PLAYLISTARRAY = ["offset"=> 0, "uid"=> '%s', "limit"=> 10, "csrf_token"=> 'csrf'];//歌曲列表 加密参数
-    const USERTOPSONGARRAY = ['uid'=>0,'csrf_token'=>'csrf','type'=>0];//用户听歌排行 加密参数 code -2 用户关闭了
+    const USERTOPSONGARRAY = ['uid'=>0,'csrf_token'=>'csrf','type'=>0,'limit'=>100,'offset'=>0];//用户听歌排行 加密参数 code -2 用户关闭了
     const COMMONAYYAY = [];
     const COMMENTARRAY = ['rid'=>'','offset'=>0,'total'=>'true','limit'=>10,'csrf_token'=>''];//歌曲评论 加密参数
     const SONGID = 139774;//歌曲id

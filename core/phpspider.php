@@ -995,7 +995,7 @@ class phpspider
         }
     }
 
-    public function do_collect_page() 
+    public function  do_collect_page()
     {
         while( $queue_lsize = $this->queue_lsize() )
         { 
@@ -1744,7 +1744,18 @@ class phpspider
                             db::insert(self::$export_table, $fields);
                         }else if(self::$configs['db_type'] == 'update'){
                             $where = self::$configs['db_key'].' = '.$fields[self::$configs['db_key']];
-                          exit(db::update(self::$export_table,$fields,$where));
+                            if(is_array($fields[self::$configs['db_key']])) {
+                                $log = 'db warning **'.json_encode($fields[self::$configs['db_key']]).'**'.PHP_EOL;
+                                file_put_contents(__DIR__.'/../common/debug_log.log',$log,FILE_APPEND);
+
+                            }
+                            $has = db::get_one('select '.self::$configs['db_key'].' from `'.self::$export_table .'` where '. self::$configs['db_key'] . ' = '.$fields[self::$configs['db_key']].' limit 1');
+
+                            if($has[self::$configs['db_key']]){
+                                db::update(self::$export_table,$fields,$where);
+                            }else {
+                                db::insert(self::$export_table, $fields);
+                            }
                         }
                     }
                 }
